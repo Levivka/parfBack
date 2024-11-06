@@ -20,7 +20,7 @@ mod dto;
 mod models;
 mod services;
 
-const MONGOURL: &str = "mongodb://levik:123@mongo.desq.com.ru/dnd-helper";
+const MONGOURL: &str = "link";
 const PORT: &str = "8081";
 
 #[actix_web::main]
