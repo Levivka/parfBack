@@ -15,7 +15,7 @@ impl Db {
     pub async fn init(url: &str) -> Result<Self, Error> {
         match Client::with_uri_str(url).await {
             Ok(client) => Ok(Self {
-                users: client.database("dnd-helper").collection("parfUsers"),
+                users: client.database("dnd-helper").collection("offenseUsers"),
             }),
             Err(e) => Err(e),
         }
@@ -39,9 +39,9 @@ impl Db {
         self.users.insert_one(user).await
     }
 
-    pub async fn find_by_email_and_password(&self, email: &String, password: &String ) -> Result<Option<User>, Error> {
+    pub async fn find_by_login_and_password(&self, login: &String, password: &String ) -> Result<Option<User>, Error> {
         self.users.find_one(doc! {
-            "nickname": email,
+            "nickname": login,
             "password": password
         }).await
     }

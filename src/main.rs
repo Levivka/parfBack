@@ -19,9 +19,10 @@ mod db;
 mod dto;
 mod models;
 mod services;
+mod sockets;
 
 const MONGOURL: &str = "link";
-const PORT: &str = "8081";
+const PORT: &str = "8083";
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -32,14 +33,15 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .app_data(Data::clone(&db))
-            .service(web::resource("/users/list").route(web::get().to(services::users::list::user_list)))
-            .service(web::resource("/users/add").route(web::post().to(services::users::add::user_add)))
+            .service(
+                web::resource("/users/list").route(web::get().to(services::users::list::user_list)),
+            )
+            .service(
+                web::resource("/users/add").route(web::post().to(services::users::add::user_add)),
+            )
             .service(web::resource("/login").route(web::post().to(services::users::login::login)))
     })
     .bind(format!("{}:{}", Ipv4Addr::LOCALHOST, PORT))?
     .run()
     .await
 }
-
-
-
